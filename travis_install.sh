@@ -46,5 +46,10 @@ else
    exit 1
 fi
 
+# Dirty hack, since PATH seems to be ignored.
+ln -sf /home/travis/bin/vim /usr/bin/vim
+
+vim --version
+
 # Clone the dependent plugins we want to use.
 ./test_all.py --clone-plugins

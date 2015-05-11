@@ -121,8 +121,7 @@ class VimInterface(TempFileManager):
                                       textwrap.dedent(os.linesep.join(config + post_config) + '\n'))
 
         # Note the space to exclude it from shell history.
-        # NOCOM(#sirver): blub
-        self.send(""" /home/travis/bin/vim -u %s\r\n""" % config_path)
+        self.send(""" vim -u %s\r\n""" % config_path)
         wait_until_file_exists(done_file)
         self._vim_pid = int(open(pid_file, 'r').read())
 
@@ -182,6 +181,7 @@ class VimInterfaceWindows(VimInterface):
     ]
 
     def __init__(self):
+        self.seq_buf = []
         # import windows specific modules
         import win32com.client
         import win32gui
@@ -209,7 +209,15 @@ class VimInterfaceWindows(VimInterface):
         return keys
 
     def send(self, keys):
-        keys = self.convert_keys(keys)
+        self.seq_buf.append(keys)
+        seq = ''.join(self.seq_buf)
+
+        for f in SEQUENCES:
+            if f.startswith(seq) and f != seq:
+                return
+        self.seq_buf = []
+
+        seq = self.convert_keys(seq)
 
         if not self.is_focused():
             time.sleep(2)
@@ -218,4 +226,4 @@ class VimInterfaceWindows(VimInterface):
             # This is the only way I can find to stop test execution
             raise KeyboardInterrupt('Failed to focus GVIM')
 
-        self.shell.SendKeys(keys)
+        self.shell.SendKeys(seq)
