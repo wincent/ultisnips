@@ -88,9 +88,8 @@ class TempFileManager(object):
 
 class VimInterface(TempFileManager):
 
-    def __init__(self, vim_executable, name):
+    def __init__(self, name=''):
         TempFileManager.__init__(self, name)
-        self._vim_executable = vim_executable
 
     def get_buffer_data(self):
         buffer_path = self.unique_name_temp(prefix='buffer_')
@@ -122,7 +121,8 @@ class VimInterface(TempFileManager):
                                       textwrap.dedent(os.linesep.join(config + post_config) + '\n'))
 
         # Note the space to exclude it from shell history.
-        self.send(""" %s -u %s\r\n""" % (self._vim_executable, config_path))
+        # NOCOM(#sirver): blub
+        self.send(""" /home/travis/bin/vim -u %s\r\n""" % config_path)
         wait_until_file_exists(done_file)
         self._vim_pid = int(open(pid_file, 'r').read())
 
@@ -134,12 +134,8 @@ class VimInterface(TempFileManager):
 
 class VimInterfaceTmux(VimInterface):
 
-    def __init__(self, vim_executable, session):
-        VimInterface.__init__(self, vim_executable, 'Tmux')
-
-        # Neovim needs this clutch to not mistake escape as an ALT sequence.
-        self._send_null_after_escape = "nvim" in vim_executable
-
+    def __init__(self, session):
+        VimInterface.__init__(self, 'Tmux')
         self.session = session
         self._check_version()
 
