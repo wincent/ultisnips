@@ -14,5 +14,12 @@ EOF
 fi
 
 tmux new -d -s vim
+
+echo "---------"
+echo $(which vim)
+echo $(which python)
+env python --version
+env vim --version
+echo "---------"
    
 ./test_all.py -v --plugins --session vim $EXTRA_OPTIONS
