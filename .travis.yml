@@ -21,6 +21,8 @@ install:
    - until sudo apt-get update -qq; do sleep 10; done
    - until sudo apt-get install -qq -y tmux xclip gdb neovim; do sleep 10; done
    - ./travis_install.sh
+   - sudo ln -sf /home/travis/bin/vim /usr/bin/vim
+
 
 script:
    - ./travis_script.sh
