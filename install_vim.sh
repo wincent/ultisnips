@@ -40,21 +40,6 @@ build_vanilla_vim () {
    rm -rf vim_build
 }
 
-repeat_transiently_failing_command () {
-   COMMAND=$1; shift
-
-   set +e
-   until ${COMMAND}; do
-      sleep 10
-   done
-   set -e
-}
-
-# Install tmux (> 1.8) and vim. 
-repeat_transiently_failing_command "add-apt-repository ppa:kalakris/tmux -y"
-repeat_transiently_failing_command "apt-get update -qq"
-repeat_transiently_failing_command "apt-get install -qq -y tmux"
-
 if [[ $VIM_VERSION == "74" ]]; then
    build_vanilla_vim ftp://ftp.vim.org/pub/vim/unix/vim-7.4.tar.bz2
 elif [[ $VIM_VERSION == "NEOVIM" ]]; then
@@ -63,11 +48,6 @@ else
    echo "Unknown VIM_VERSION: $VIM_VERSION"
    exit 1
 fi
-
-# Dirty hack, since PATH seems to be ignored.
-ln -sf /home/travis/bin/vim /usr/bin/vim
-
-vim --version
 
 # Clone the dependent plugins we want to use.
 ./test_all.py --clone-plugins
