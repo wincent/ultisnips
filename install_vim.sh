@@ -24,13 +24,8 @@ build_vanilla_vim () {
    fi
    ./configure \
       --prefix=${HOME} \
-      --disable-nls \
-      --disable-sysmouse \
-      --disable-gpm \
       --enable-gui=no \
-      --enable-multibyte \
       --with-features=huge \
-      --with-tlib=ncurses \
       --without-x \
       ${PYTHON_BUILD_CONFIG}
 
