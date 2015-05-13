@@ -24,8 +24,13 @@ build_vanilla_vim () {
    fi
    ./configure \
       --prefix=${HOME} \
+      --disable-nls \
+      --disable-sysmouse \
+      --disable-gpm \
       --enable-gui=no \
+      --enable-multibyte \
       --with-features=huge \
+      --with-tlib=ncurses \
       --without-x \
       ${PYTHON_BUILD_CONFIG}
 
@@ -43,6 +48,11 @@ else
    echo "Unknown VIM_VERSION: $VIM_VERSION"
    exit 1
 fi
+
+echo ":py3 print('hi')\n:quit\n" | vim -e -V9myVimLog
+
+cat myVimLog
+
 
 # Clone the dependent plugins we want to use.
 ./test_all.py --clone-plugins
