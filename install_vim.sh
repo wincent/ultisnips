@@ -3,9 +3,6 @@
 # Installs a known version of vim in the travis test runner.
 set -ex
 
-VIM_VERSION=$1; shift
-PYTHON_VERSION=$1; shift
-
 build_vanilla_vim () {
    local URL=$1; shift;
 
@@ -39,6 +36,11 @@ build_vanilla_vim () {
 
    rm -rf vim_build
 }
+
+echo $(which python)
+find $(dirname $(dirname $(which python)))
+
+exit 1
 
 if [[ $VIM_VERSION == "74" ]]; then
    build_vanilla_vim ftp://ftp.vim.org/pub/vim/unix/vim-7.4.tar.bz2
