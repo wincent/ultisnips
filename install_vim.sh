@@ -37,8 +37,13 @@ build_vanilla_vim () {
    rm -rf vim_build
 }
 
+echo ----
 echo $(which python)
+echo ----
 find $(dirname $(dirname $(which python)))
+echo ----
+find /home/travis/virtualenv/
+echo ----
 
 exit 1
 
