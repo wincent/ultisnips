@@ -49,7 +49,7 @@ else
    exit 1
 fi
 
-echo ":py3 import sys;print(sys.version);\n:quit\n" | vim -e -V9myVimLog
+echo ":py3 import sys;print(sys.version);\n:quit\n" | /home/travis/bin/vim -e -V9myVimLog
 
 cat myVimLog
 
