@@ -47,7 +47,7 @@ else
    exit 1
 fi
 
-printf "py3 import sys;print(sys.version);\nquit" | /home/travis/bin/vim  -e -V9myVimLog
+printf "py import sys;print(sys.version);\nquit" | /home/travis/bin/vim  -e -V9myVimLog
 
 cat myVimLog
 
