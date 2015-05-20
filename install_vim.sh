@@ -17,7 +17,7 @@ build_vanilla_vim () {
    if [[ $TRAVIS_PYTHON_VERSION =~ "2." ]]; then
       PYTHON_BUILD_CONFIG="--enable-pythoninterp"
    else
-      PYTHON_BUILD_CONFIG="--enable-python3interp"
+      PYTHON_BUILD_CONFIG="--enable-python3interp --with-python3-config-dir=/opt/python/3.2.5/lib/python3.2/config-3.2mu/"
    fi
    ./configure \
       --prefix=${HOME} \
@@ -38,13 +38,9 @@ build_vanilla_vim () {
 }
 
 echo ----
-echo $(which python)
+echo $TRAVIS_PYTHON_VERSION
 echo ----
-find $(dirname $(dirname $(which python)))
-echo ----
-find /home/travis/virtualenv/
-echo ----
-find /opt
+find /opt -iname 'config.c' | grep $TRAVIS_PYTHON_VERSION
 echo ----
 
 exit 1
