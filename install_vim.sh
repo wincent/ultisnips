@@ -13,11 +13,12 @@ build_vanilla_vim () {
    tar xjf vim.tar.bz2
    cd vim${VIM_VERSION}
 
+   local PYTHON_CONFIG_DIR=$(dirname $(find /opt -iname 'config.c' | grep $TRAVIS_PYTHON_VERSION))
    local PYTHON_BUILD_CONFIG=""
    if [[ $TRAVIS_PYTHON_VERSION =~ "2." ]]; then
-      PYTHON_BUILD_CONFIG="--enable-pythoninterp"
+      PYTHON_BUILD_CONFIG="--enable-pythoninterp --with-python-config-dir=${PYTHON_CONFIG_DIR}"
    else
-      PYTHON_BUILD_CONFIG="--enable-python3interp --with-python3-config-dir=/opt/python/3.2.5/lib/python3.2/config-3.2mu/"
+      PYTHON_BUILD_CONFIG="--enable-python3interp --with-python3-config-dir=${PYTHON_CONFIG_DIR}"
    fi
    ./configure \
       --prefix=${HOME} \
@@ -37,14 +38,6 @@ build_vanilla_vim () {
    rm -rf vim_build
 }
 
-echo ----
-echo $TRAVIS_PYTHON_VERSION
-echo ----
-find /opt -iname 'config.c' | grep $TRAVIS_PYTHON_VERSION
-echo ----
-
-exit 1
-
 if [[ $VIM_VERSION == "74" ]]; then
    build_vanilla_vim ftp://ftp.vim.org/pub/vim/unix/vim-7.4.tar.bz2
 elif [[ $VIM_VERSION == "NEOVIM" ]]; then
@@ -58,6 +51,7 @@ printf "py3 import sys;print(sys.version);\nquit" | /home/travis/bin/vim  -e -V9
 
 cat myVimLog
 
+exit 1
 
 # Clone the dependent plugins we want to use.
 ./test_all.py --clone-plugins
