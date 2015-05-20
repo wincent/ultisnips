@@ -44,6 +44,8 @@ find $(dirname $(dirname $(which python)))
 echo ----
 find /home/travis/virtualenv/
 echo ----
+find /opt
+echo ----
 
 exit 1
 
