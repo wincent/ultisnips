@@ -25,6 +25,7 @@ install:
    - sudo ln -sf /home/travis/bin/vim /usr/bin/vim
 
 
+
 before_script:
   - printf "py import sys;print(sys.version);\nquit" | /home/travis/bin/vim  -e -V9myVimLog
   - tmux new -d -s vim
