@@ -21,7 +21,7 @@ install:
    - until sudo add-apt-repository ppa:neovim-ppa/unstable -y; do sleep 10; done
    - until sudo apt-get update -qq; do sleep 10; done
    - until sudo apt-get install -qq -y --force-yes tmux xclip gdb neovim; do sleep 10; done
-   - sudo dkpg -l | grep -i python
+   - sudo dpkg -l | grep -i python
    - sudo ./install_vim.sh "${VIM_VERSION}" "${TRAVIS_PYTHON_VERSION}"
    - sudo ln -sf /home/travis/bin/vim /usr/bin/vim
 
