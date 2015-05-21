@@ -3,6 +3,9 @@
 # Installs a known version of vim in the travis test runner.
 set -ex
 
+VIM_VERSION=$1; shift
+TRAVIS_PYTHON_VERSION=$1; shift
+
 build_vanilla_vim () {
    local URL=$1; shift;
 
