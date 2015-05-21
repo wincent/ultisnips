@@ -50,11 +50,9 @@ else
    exit 1
 fi
 
-printf "py import sys;print(sys.version);\nquit" | /home/travis/bin/vim  -e -V9myVimLog
+printf "py3 import sys;print(sys.version);\nquit" | /home/travis/bin/vim  -e -V9myVimLog
 
 cat myVimLog
-
-exit 1
 
 # Clone the dependent plugins we want to use.
 ./test_all.py --clone-plugins

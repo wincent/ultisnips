@@ -27,7 +27,8 @@ install:
 
 
 before_script:
-  - printf "py import sys;print(sys.version);\nquit" | /home/travis/bin/vim  -e -V9myVimLog
+  - printf "py3 import sys;print(sys.version);\nquit" | /home/travis/bin/vim  -e -V9myVimLog
   - tmux new -d -s vim
+  - exit 1
 
 script: ./test_all.py -v --plugins --session vim
