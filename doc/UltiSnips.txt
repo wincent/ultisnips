@@ -1535,6 +1535,7 @@ individuals have contributed to UltiSnips (in chronological order):
    Dettorer - dettorer
    Zhao Jiarong - kawing-chiu
    Ye Ding - dyng
+   mattn
 
 
 Thank you for your support.
