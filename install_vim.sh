@@ -16,7 +16,7 @@ build_vanilla_vim () {
    tar xjf vim.tar.bz2
    cd vim${VIM_VERSION}
 
-   local PYTHON_CONFIG_DIR=$(dirname $(find /opt -iname 'config.c' | grep $TRAVIS_PYTHON_VERSION))
+   local PYTHON_CONFIG_DIR=$(dirname $(find $HOME/lib -iname 'config.c' | grep $TRAVIS_PYTHON_VERSION))
    local PYTHON_BUILD_CONFIG=""
    if [[ $TRAVIS_PYTHON_VERSION =~ "2." ]]; then
       PYTHON_BUILD_CONFIG="--enable-pythoninterp --with-python-config-dir=${PYTHON_CONFIG_DIR}"
@@ -40,6 +40,33 @@ build_vanilla_vim () {
 
    rm -rf vim_build
 }
+
+build_python () {
+   local PYTHON_VERSION="3.4.3"
+   local URL="https://www.python.org/ftp/python/3.4.3/Python-${PYTHON_VERSION}.tgz"
+
+   mkdir python_build
+   pushd python_build
+
+   until curl $URL -o python.tar.gz; do sleep 10; done
+   tar xzf python.tar.gz
+   cd Python${PYTHON_VERSION}
+
+   local PYTHON_CONFIG_DIR=$(dirname $(find /opt -iname 'config.c' | grep $TRAVIS_PYTHON_VERSION))
+   local PYTHON_BUILD_CONFIG=""
+   if [[ $TRAVIS_PYTHON_VERSION =~ "2." ]]; then
+      PYTHON_BUILD_CONFIG="--enable-pythoninterp --with-python-config-dir=${PYTHON_CONFIG_DIR}"
+   else
+      PYTHON_BUILD_CONFIG="--enable-python3interp --with-python3-config-dir=${PYTHON_CONFIG_DIR}"
+   fi
+   ./configure \
+      --prefix=${HOME} 
+
+   make install
+   popd
+}
+
+build_python 
 
 if [[ $VIM_VERSION == "74" ]]; then
    build_vanilla_vim ftp://ftp.vim.org/pub/vim/unix/vim-7.4.tar.bz2
