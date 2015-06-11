@@ -3,6 +3,9 @@
 # Installs a known version of vim in the travis test runner.
 set -ex
 
+echo $(which python)
+echo $($(which python) --version)
+
 echo $PATH
 export PATH="/bin:/usr/bin:/home/travis/bin"
 echo $PATH
