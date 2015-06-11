@@ -3,6 +3,10 @@
 # Installs a known version of vim in the travis test runner.
 set -ex
 
+echo $PATH
+export PATH="/bin:/usr/bin:/home/travis/bin"
+echo $PATH
+
 build_vanilla_vim () {
    local URL=$1; shift;
 
