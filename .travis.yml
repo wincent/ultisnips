@@ -22,7 +22,7 @@ install:
    - until sudo apt-get update -qq; do sleep 10; done
    - until sudo apt-get install -qq -y --force-yes tmux xclip gdb neovim; do sleep 10; done
    - sudo dpkg -l | grep -i python
-   - sudo ./install_vim.sh "${VIM_VERSION}" "${TRAVIS_PYTHON_VERSION}"
+   - ./install_vim.sh
    - sudo ln -sf /home/travis/bin/vim /usr/bin/vim
 
 

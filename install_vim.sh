@@ -3,9 +3,6 @@
 # Installs a known version of vim in the travis test runner.
 set -ex
 
-VIM_VERSION=$1; shift
-TRAVIS_PYTHON_VERSION=$1; shift
-
 build_vanilla_vim () {
    local URL=$1; shift;
 
@@ -50,18 +47,9 @@ build_python () {
 
    until curl $URL -o python.tar.gz; do sleep 10; done
    tar xzf python.tar.gz
-   cd Python${PYTHON_VERSION}
+   cd Python-${PYTHON_VERSION}
 
-   local PYTHON_CONFIG_DIR=$(dirname $(find /opt -iname 'config.c' | grep $TRAVIS_PYTHON_VERSION))
-   local PYTHON_BUILD_CONFIG=""
-   if [[ $TRAVIS_PYTHON_VERSION =~ "2." ]]; then
-      PYTHON_BUILD_CONFIG="--enable-pythoninterp --with-python-config-dir=${PYTHON_CONFIG_DIR}"
-   else
-      PYTHON_BUILD_CONFIG="--enable-python3interp --with-python3-config-dir=${PYTHON_CONFIG_DIR}"
-   fi
-   ./configure \
-      --prefix=${HOME} 
-
+   ./configure --prefix=${HOME} 
    make install
    popd
 }
